@@ -170,29 +170,29 @@ func DatasourceGet(ctx *ctx.Context, id int64) (*Datasource, error) {
 	return ds, ds.DB2FE()
 }
 
-type DatasourceSimple struct {
+type DatasourceInfo struct {
 	Id         int64  `json:"id"`
 	Name       string `json:"name"`
 	PluginType string `json:"plugin_type"`
 }
 
-func GetDatasourcesByIds(ctx *ctx.Context, ids []int64) ([]*DatasourceSimple, error) {
+func GetDatasourceInfosByIds(ctx *ctx.Context, ids []int64) ([]*DatasourceInfo, error) {
 	if len(ids) == 0 {
-		return []*DatasourceSimple{}, nil
+		return []*DatasourceInfo{}, nil
 	}
 
-	var dss []*DatasourceSimple
+	var dsInfos []*DatasourceInfo
 	err := DB(ctx).
 		Model(&Datasource{}).
 		Select("id", "name", "plugin_type").
-		Where("id IN ?", ids).
-		Find(&dss).Error
+		Where("id in ?", ids).
+		Find(&dsInfos).Error
 
 	if err != nil {
 		return nil, err
 	}
 
-	return dss, nil
+	return dsInfos, nil
 }
 
 func (ds *Datasource) Get(ctx *ctx.Context) error {

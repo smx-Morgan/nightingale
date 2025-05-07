@@ -669,9 +669,9 @@ func AlertCurEventDsIds(ctx *ctx.Context, prods []string, bgids []int64, stime, 
 		}
 	}
 
-	var dsIdsOut []int64
-	err := session.Find(&dsIdsOut).Error
-	return dsIdsOut, err
+	var dsIds []int64
+	err := session.Find(&dsIds).Error
+	return dsIds, err
 }
 
 func AlertCurEventCountByRuleId(ctx *ctx.Context, rids []int64, stime, etime int64) map[int64]int64 {

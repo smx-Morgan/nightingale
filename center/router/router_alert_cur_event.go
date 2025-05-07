@@ -301,7 +301,7 @@ func (rt *Router) alertDataSourcesList(c *gin.Context) {
 		cates, ruleId, query, gids)
 	ginx.Dangerous(err)
 
-	dsList, err := models.GetDatasourcesByIds(rt.Ctx, dsIds)
+	dsList, err := models.GetDatasourceInfosByIds(rt.Ctx, dsIds)
 	ginx.Dangerous(err)
 
 	ginx.NewRender(c).Data(dsList, nil)
