@@ -63,9 +63,9 @@ func (rt *Router) alertCurEventsCard(c *gin.Context) {
 		}
 	}
 
-	viewID := ginx.QueryInt64(c, "view_id")
+	viewId := ginx.QueryInt64(c, "view_id")
 
-	alertView, err := models.GetAlertAggrViewByViewID(rt.Ctx, viewID)
+	alertView, err := models.GetAlertAggrViewByViewID(rt.Ctx, viewId)
 	ginx.Dangerous(err)
 
 	if alertView == nil {
@@ -259,13 +259,6 @@ func (rt *Router) checkCurEventBusiGroupRWPermission(c *gin.Context, ids []int64
 		}
 	}
 }
-func getUserGroupIds(ctx *gin.Context, rt *Router, myGroups bool) ([]int64, error) {
-	if !myGroups {
-		return nil, nil
-	}
-	me := ctx.MustGet("user").(*models.User)
-	return models.MyGroupIds(rt.Ctx, me.Id)
-}
 
 // 列表方式，拉取活跃告警
 func (rt *Router) alertDataSourcesList(c *gin.Context) {
@@ -291,13 +284,21 @@ func (rt *Router) alertDataSourcesList(c *gin.Context) {
 	}
 
 	ruleId := ginx.QueryInt64(c, "rid", 0)
-	gids, err := getUserGroupIds(c, rt, myGroups)
+	var gids []int64
+	var err error
+	if myGroups {
+		gids, err = getUserGroupIds(c, rt, myGroups)
+		ginx.Dangerous(err)
+		if len(gids) == 0 {
+			gids = append(gids, -1)
+		}
+	}
 
 	bgids, err := GetBusinessGroupIds(c, rt.Ctx, rt.Center.EventHistoryGroupView)
 	ginx.Dangerous(err)
 
 	dsIds, err := models.AlertCurEventDsIds(rt.Ctx, prods, bgids, stime, etime, severity,
-		cates, ruleId, query, gids, myGroups)
+		cates, ruleId, query, gids)
 	ginx.Dangerous(err)
 
 	dsList, err := models.GetDatasourcesByIds(rt.Ctx, dsIds)

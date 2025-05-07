@@ -635,7 +635,7 @@ func AlertCurEventsGet(ctx *ctx.Context, prods []string, bgids []int64, stime, e
 	return lst, err
 }
 func AlertCurEventDsIds(ctx *ctx.Context, prods []string, bgids []int64, stime, etime int64,
-	severity int, cates []string, ruleId int64, query string, myGroups []int64, myGroup bool) (
+	severity int, cates []string, ruleId int64, query string, myGroups []int64) (
 	[]int64, error) {
 
 	session := DB(ctx).Model(&AlertCurEvent{}).Distinct("datasource_id").Select("datasource_id")
@@ -658,7 +658,7 @@ func AlertCurEventDsIds(ctx *ctx.Context, prods []string, bgids []int64, stime, 
 	if ruleId > 0 {
 		session = session.Where("rule_id = ?", ruleId)
 	}
-	if myGroup {
+	if len(myGroups) > 0 {
 		session = session.Where("group_id in ?", myGroups)
 	}
 	if query != "" {
