@@ -304,9 +304,7 @@ func (rt *Router) alertDataSourcesList(c *gin.Context) {
 	dsIds := make([]int64, 0, len(list))
 
 	for i := 0; i < len(list); i++ {
-		if list[i].DatasourceId > 0 {
-			dsIds = append(dsIds, list[i].DatasourceId)
-		}
+		dsIds = append(dsIds, list[i].DatasourceId)
 	}
 
 	dsList, err := models.GetDatasourceInfosByIds(rt.Ctx, dsIds)
