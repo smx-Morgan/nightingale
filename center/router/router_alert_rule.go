@@ -229,6 +229,7 @@ func (rt *Router) alertRuleNotifyTryRun(c *gin.Context) {
 			ginx.Dangerous(err)
 		}
 	}
+	ginx.NewRender(c).Data("Notification match", nil)
 }
 
 func (rt *Router) alertRuleEnableTryRun(c *gin.Context) {
@@ -350,6 +351,7 @@ func (rt *Router) alertRuleEnableTryRun(c *gin.Context) {
 			ginx.Dangerous(err)
 		}
 	}
+	ginx.NewRender(c).Data("Notification match", nil)
 }
 
 func (rt *Router) alertRuleAddByImport(c *gin.Context) {
