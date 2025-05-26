@@ -3,7 +3,6 @@ package router
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/pkg/errors"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -19,6 +18,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
+	"github.com/pkg/errors"
 	"github.com/prometheus/prometheus/prompb"
 	"github.com/toolkits/pkg/ginx"
 	"github.com/toolkits/pkg/i18n"
@@ -681,7 +681,7 @@ func (rt *Router) alertRuleValidation(c *gin.Context) {
 	ginx.BindJSON(c, &f)
 
 	if len(f.NotifyChannelsJSON) > 0 && len(f.NotifyGroupsJSON) > 0 { //Validation NotifyChannels
-		ngids := make([]int64, 0, len(f.NotifyGroupsJSON))
+		ngids := make([]int64, 0, len(f.NotifyChannelsJSON))
 		for i := range f.NotifyGroupsJSON {
 			id, _ := strconv.ParseInt(f.NotifyGroupsJSON[i], 10, 64)
 			ngids = append(ngids, id)
