@@ -275,8 +275,7 @@ func (rt *Router) alertRuleEnableTryRun(c *gin.Context) {
 			}
 		}
 		if !found {
-			ginx.Bomb(http.StatusBadRequest, "The event occurred on a day that is not within the allowed week range")
-			return
+			ginx.Dangerous(errors.New("The event occurred on a day that is not within the allowed week range"))
 		}
 	}
 
@@ -296,8 +295,7 @@ func (rt *Router) alertRuleEnableTryRun(c *gin.Context) {
 			}
 		}
 		if !inTimeRange {
-			ginx.Bomb(http.StatusBadRequest, "The event occurred on a day that is not within the allowed week range")
-			return
+			ginx.Dangerous(errors.New("The event occurred on a day that is not within the allowed day time range"))
 		}
 	}
 	if len(f.AlertRuleConfig.NotifyChannelsJSON) > 0 && len(f.AlertRuleConfig.NotifyGroupsJSON) > 0 {
