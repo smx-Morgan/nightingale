@@ -1,7 +1,6 @@
 package mute
 
 import (
-	"github.com/pkg/errors"
 	"strconv"
 	"strings"
 	"time"
@@ -10,6 +9,7 @@ import (
 	"github.com/ccfos/nightingale/v6/memsto"
 	"github.com/ccfos/nightingale/v6/models"
 
+	"github.com/pkg/errors"
 	"github.com/toolkits/pkg/logger"
 )
 
